@@ -1,0 +1,11 @@
+influx:
+  user: simatp1
+  password: *secret*
+  database: mydb
+  host: dbod-adcccmon.cern.ch
+  port: 8081
+
+panda:
+  host: http://bigpanda.cern.ch/status_summary/
+  site: CERN-P1*
+  nhours: 1
