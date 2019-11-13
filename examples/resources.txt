@@ -1,0 +1,12 @@
+# Last Generated on Thu Oct 17 12:59:01 CEST 2019  Ticket #8304
+# The unix Epoch time: 1571309941
+#
+pc-tdq-tpu-00001 prod simp1
+pc-tdq-tpu-00002 prod simp1
+pc-tdq-tpu-48038 prod tdaq
+pc-tdq-tpu-48039 prod tdaq
+pc-tdq-tpu-48040 prod tdaq
+pc-tdq-tpu-56009 maint simp1
+pc-tdq-tpu-75002 maint simp1
+pc-tdq-tpu-95014 retired simp1
+pc-tdq-tpu-94042 prod simp1
