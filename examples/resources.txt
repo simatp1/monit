@@ -10,3 +10,7 @@ pc-tdq-tpu-56009 maint simp1
 pc-tdq-tpu-75002 maint simp1
 pc-tdq-tpu-95014 retired simp1
 pc-tdq-tpu-94042 prod simp1
+
+
+# My Comment: vm-sp1-cm-9999999
+# Save Id as number in string

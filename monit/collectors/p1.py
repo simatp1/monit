@@ -2,7 +2,7 @@
 
 example input file is in examples/resources.txt
 
-The same file sits on the webserver https://squid.cern.sh/resources.txt
+The same file sits on the webserver https://squid.cern.ch/resources.txt
 
 Returns:
     list of hostnames of the resources that should be available to do work, e.g.
