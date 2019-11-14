@@ -12,7 +12,6 @@ def main():
     list_resources()
 
 def list_resources():
-    #file_name = "../../examples/resources.txt"
     incDevNam = False # when true ignors, when false adds the vm-sp1-cn- prefix
     buff_file = "servers.txt" #intermidiate storage of list from web for farther processing
     url = "http://squid.cern.ch/resources.txt" #url at wich to find the file
