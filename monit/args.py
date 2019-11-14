@@ -60,4 +60,8 @@ def add_resources_subparser(subparser):
 
     # Set the sub-command routine to run.
     parser.set_defaults(cmd='resources')
-
+    parser.add_argument(
+        "--pool",
+        default="sp1-dev.cern.ch:20618",
+        dest='pool',
+        help="Specify the condor pool to query")
