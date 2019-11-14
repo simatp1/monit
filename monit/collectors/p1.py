@@ -18,10 +18,7 @@ def list_resources():
     url = "http://squid.cern.ch/resources.txt" #url at wich to find the file
     retrieve_File(url,buff_file) #copies the file in to a file saved at the location indicated by buff_file(a .txt file)
     list, epochTime = find_resources_and_date(buff_file) #farther processes the file at buff_file location
-    print(epochTime)
-    for i in range(len(list)):
-        print(list[i])
-    #return list, epochTime
+    return list, epochTime
 
 def retrieve_File(url, toText):
     #gets the file from url -The location on the web- and saves it to toText -a user specified location- for
