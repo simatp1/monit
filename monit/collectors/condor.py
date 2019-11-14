@@ -29,7 +29,7 @@ def list_resources():
 
 
 def main():
-    print(list_resources)
+    print(list_resources())
 
 if __name__ == '__main__':
     main()
