@@ -18,7 +18,7 @@ def main():
 
 def monitor_resources(arguments):
     # manages information flow for resources monitoring
-    available_hosts = p1.list_resources()
+    available_hosts, time = p1.list_resources()
     condor_resources = condor.list_resources()
 
     print(available_hosts)
