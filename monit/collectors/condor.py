@@ -6,19 +6,20 @@ Returns:
     the host
 """
 from htcondor import Collector, AdTypes
+import json
 
-
-def list_resources():
+def list_resources(pool="sp1-dev.cern.ch:20618"):
     projection = [
         'Machine',
         'DetectedCpus',
         'DetectedMemory',
         'ChildCpus',
-        'ChildMemory']
+        'ChildMemory',
+        'TotalCondorLoadAvg']
     constraint = (
         'regexp("vm-sp1-cn-[0-9]*.cern.ch",Machine)&&'
         'PartitionableSlot==True')
-    coll = Collector('sp1-dev.cern.ch:20618')
+    coll = Collector(pool)
     ads = coll.query(AdTypes.Startd,
                      constraint=constraint,
                      projection=projection)
@@ -29,7 +30,7 @@ def list_resources():
 
 
 def main():
-    print(list_resources())
+    print(json.dumps(list_resources(), indent=2))
 
 if __name__ == '__main__':
     main()
