@@ -32,11 +32,25 @@ def list_resources():
     return data
 
 
+def list_machines():
+    #a function to find the relevant info, the machine name and the pctfail value, out of the data structure
+    machines = {}
+    data = list_resources()
+    for machine in data["summary"]:
+        if "vm-sp1-cn-" in machine["name"]:
+            machines[machine["name"][10:15]] = machine["pctfail"]
+    return machines
+
+
 def main():
     """Execute this module as script to ease testing and developing
     """
-    res = list_resources()
-    print(json.dumps(res, indent=2))
+    #res = list_resources()
+    #print(json.dumps(res, indent=2))
+    out = list_machines()
+    for n in out:
+        print(n, end="  ")
+        print(out[n])
 
 if __name__ == "__main__":
     main()
