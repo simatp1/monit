@@ -35,14 +35,14 @@ def correlate(p1, condor, panda):
                          "TotalCondorLoadAvg":0.0,
                          "UsageCpus":0.0,
                          "UsageMemory":0.0,
-                         "PerCpuLoad":0.0,
+                         "PerCpuLoad":0.0}
         if in_panda == True:
             output[i]["pctfail"] = panda[i] #pctfail from pand copied if present, else set to 0
         else:
             output[i]["pctfail"] = 0
         output[i]["InPanda"] = in_panda  #bools of in panda and in condor included for case differenciation
         output[i]["InCondor"] = in_condor
-    return output 
+    return output
 
 if __name__ == "__main__":
     main()
