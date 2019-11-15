@@ -9,7 +9,10 @@ Returns:
     ['vm-sp1-cn-00001', 'vm-sp1-cn-00002', ..., 'vm-sp1-cn-94042']
 """
 def main():
-    list_resources()
+    list, epochTime = list_resources()
+    print(epochTime)
+    for i in range(len(list)):
+        print(list[i])
 
 def list_resources():
     incDevNam = False # when true ignors, when false adds the vm-sp1-cn- prefix
@@ -32,14 +35,18 @@ def find_resources_and_date(file_name):
     # 2. drop everything that is no "prod simp1"
     # 3. take the remaining hostnames and turn them into a list of strings
     toKeep = []
+    epochTime = 0
     # opens the file from IT, Computer resources
     list = open(file_name, "r")
     #initiats contents with first line of file
     contents = list.readline()
-    contents = list.readline() #gets the epoch time stamp from the second line of the file
-    epochTime = contents.split(' ') # ----
-    epochTime = epochTime[len(epochTime)-1] # -----
-    epochTime = epochTime.strip("\n") #checks to see if the timestamp ends in a "\n", if so it deletes "\n"
+    while contents[0] == "#":
+        if "time:" in contents:
+            epochTime = contents.split(' ')
+            epochTime = epochTime[len(epochTime)-1]
+            epochTime = epochTime.strip('\n')
+        contents = list.readline()
+
     while contents[len(contents) - 1] == "\n":
         #to do, Check the lines
         contents = contents.strip("\n")
@@ -50,6 +57,7 @@ def find_resources_and_date(file_name):
             if prospect[1] == "prod" and prospect[2] == "simp1":
                 #tests to see if line with len 0, sign of end of file
                 toKeep.append(prospect[0][11:16])
+
         contents = list.readline()
         if len(contents) == 0:
             break
