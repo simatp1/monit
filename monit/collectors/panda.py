@@ -9,7 +9,7 @@ import requests
 import time
 
 
-def list_resources():
+def get_data():
     params = {
         'nhours': '1',
         'json': 1}
@@ -32,10 +32,10 @@ def list_resources():
     return data
 
 
-def list_machines():
+def list_resources():
     #a function to find the relevant info, the machine name and the pctfail value, out of the data structure
     machines = {}
-    data = list_resources()
+    data = get_data()
     for machine in data["summary"]:
         if "vm-sp1-cn-" in machine["name"]:
             machines[machine["name"][10:15]] = machine["pctfail"]
@@ -47,7 +47,7 @@ def main():
     """
     #res = list_resources()
     #print(json.dumps(res, indent=2))
-    out = list_machines()
+    out = list_resources()
     for n in out:
         print(n, end="  ")
         print(out[n])
