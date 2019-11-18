@@ -33,16 +33,12 @@ def makeDict():
     data_dict = {}
     for i in range(len(data)-1):
         data_dict[data[i]["Machine"][10:15]] = data[i]
-    for i in data_dict:
-        data_dict[i].pop('Machine')
+        #data_dict[data[i]["Machine"]] = data_dict[data[i]["Machine"]].pop("Machine")
     return data_dict
 
 def main():
     #print(json.dumps(list_resources(), indent=2))
-    data = makeDict()
-    for i in data:
-        print(i, end=":  ")
-        print(data[i])
+    print(makeDict())
 
 if __name__ == '__main__':
     main()
