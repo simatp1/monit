@@ -11,10 +11,15 @@ def main():
     n = 0
     for i in output:
         if output[i]["InPanda"] == False or output[i]["InCondor"] == False:
-            print(i, end="  ")
-            print(output[i])
             n += 1
-    print(n)
+            print(i)
+        for x in output[i]:
+            if output[i]["InPanda"] == False or output[i]["InCondor"] == False:
+                print("        ", end="  ")
+                print(x,end = " ")
+                print(output[i][x])
+
+    print(n, "-------------------")
 
 def correlate(p1, condor, panda):
     output = {}
@@ -35,7 +40,9 @@ def correlate(p1, condor, panda):
                          "TotalCondorLoadAvg":0.0,
                          "UsageCpus":0.0,
                          "UsageMemory":0.0,
-                         "PerCpuLoad":0.0}
+                         "PerCpuLoad":0.0,
+                         "Utilization":0.0}
+
         if in_panda == True:
             output[i]["pctfail"] = panda[i] #pctfail from pand copied if present, else set to 0
         else:
