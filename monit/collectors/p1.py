@@ -13,54 +13,55 @@ def main():
     print(epochTime)
     for i in range(len(list)):
         print(list[i])
+        """
+    out = retrieve_File("http://squid.cern.ch/resources.txt")
+    out = out.split("\n")
+    print(out[3][0])"""
 
 def list_resources():
     incDevNam = False # when true ignors, when false adds the vm-sp1-cn- prefix
-    buff_file = "servers.txt" #intermidiate storage of list from web for farther processing
     url = "http://squid.cern.ch/resources.txt" #url at wich to find the file
-    retrieve_File(url,buff_file) #copies the file in to a file saved at the location indicated by buff_file(a .txt file)
-    list, epochTime = find_resources_and_date(buff_file) #farther processes the file at buff_file location
+    info = retrieve_File(url) #passes the list to find_resources_and_date in info variable
+    list, epochTime = find_resources_and_date(info) #farther processes the file at buff_file location
     return list, epochTime
 
-def retrieve_File(url, toText):
+def retrieve_File(url):
     #gets the file from url -The location on the web- and saves it to toText -a user specified location- for
     #farther processing
     import urllib.request
     import shutil
-    with urllib.request.urlopen(url) as response, open(toText, 'wb') as outFile:
-        shutil.copyfileobj(response, outFile)
+    with urllib.request.urlopen(url) as response:
+        response = response.read()
+        response = response.decode('ascii')
+        return str(response)
 
-def find_resources_and_date(file_name):
+def find_resources_and_date(info):
     # 1. grab list from file or webserver
     # 2. drop everything that is no "prod simp1"
     # 3. take the remaining hostnames and turn them into a list of strings
     toKeep = []
     epochTime = 0
-    # opens the file from IT, Computer resources
-    list = open(file_name, "r")
+    list = info
     #initiats contents with first line of file
-    contents = list.readline()
-    while contents[0] == "#":
-        if "time:" in contents:
-            epochTime = contents.split(' ')
+    contents = info.split('\n')
+    i = 0
+    while contents[i][0] == "#":
+        if "time:" in contents[i]:
+            epochTime = contents[i].split(' ')
             epochTime = epochTime[len(epochTime)-1]
             epochTime = epochTime.strip('\n')
-        contents = list.readline()
+        i += 1
 
-    while contents[len(contents) - 1] == "\n":
+    while i < len(contents):
         #to do, Check the lines
-        contents = contents.strip("\n")
-        prospect = contents.split(' ')
+        prospect = contents[i].split(' ')
         if(len(prospect) >= 3):  #confirms that prospect is a relevant entry, to avoid index out of range errors when looking at a.g. empty lines
 
         #if "prod" in contents and "simp1" in contents:
             if prospect[1] == "prod" and prospect[2] == "simp1":
                 #tests to see if line with len 0, sign of end of file
                 toKeep.append(prospect[0][11:16])
-
-        contents = list.readline()
-        if len(contents) == 0:
-            break
+        i += 1
     #returns creatime(time the file was Generated) and toKeep, a list of all relevant servers
     return toKeep, epochTime
     #return ['stuff', 'more stuff']
