@@ -59,9 +59,19 @@ def add_resources_subparser(subparser):
     subparser = parser.add_subparsers()
 
     # Set the sub-command routine to run.
-    parser.set_defaults(cmd='resources')
     parser.add_argument(
         "--pool",
         default="sp1-dev.cern.ch:20618",
         dest='pool',
         help="Specify the condor pool to query")
+    parser.add_argument(
+        "--out",
+        default="table",
+        dest='out',
+        help="Specify how to deliver results")
+    parser.add_argument(
+        "--passwd",
+        default="",
+        dest='passwd',
+        help="Credential to write reports to the database")
+    parser.set_defaults(cmd='resources')

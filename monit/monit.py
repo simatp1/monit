@@ -11,9 +11,20 @@ def main():
         print("not defined yet")
 
     if ARGS.cmd == 'resources':
-        monitor_resources(ARGS)
+        results = monitor_resources(ARGS)
     elif ARGS.cmd == 'jobs':
         print('job monitoring not implemented yet')
+
+    if ARGS.out == 'table':
+        from reporters import table
+        table.report(results)
+    elif ARGS.out == 'influx':
+        try:
+            from reporters import influx
+            influx.report(results, ARGS.host, ARGS.passwd)
+        except AttributeError as e:
+            print("Output to influx reuqires a database host and password", e)
+            exit(1)
 
 
 def monitor_resources(arguments):
@@ -21,11 +32,9 @@ def monitor_resources(arguments):
     available_hosts, time = p1.list_resources()
     condor_resources = condor.list_resources(
         arguments.pool)
-    panda_workers = panda.list_resources()
+    panda.list_resources()
 
-    print(available_hosts)
-    print(condor_resources)
-    print(panda_workers)
+    return condor_resources
 
 
 if __name__ == "__main__":
