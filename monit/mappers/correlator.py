@@ -8,7 +8,6 @@ def main():
         condor_data = json.load(f)
     with open('../../examples/panda_data.json', 'r') as f:
         panda_data = json.load(f)
-    condor_data = calculate.calc(condor_data)
     output = correlate(p1_data, condor_data, panda_data)
     n = 0
     for i in output:
@@ -24,6 +23,7 @@ def main():
     print(n, "-------------------")
 
 def correlate(p1, condor, panda):
+    condor = calculate.calc(condor)
     output = {}
     for i in p1:
         in_condor = False  #checks wether or not the machine is in the condor and panda resource lists
