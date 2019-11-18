@@ -1,5 +1,5 @@
 import json
-import mappers.calculate
+from mappers import calculate 
 
 def main():
     with open('../../examples/p1_data.json', 'r') as f:

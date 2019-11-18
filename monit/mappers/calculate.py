@@ -23,11 +23,7 @@ def calc(condor_data):
         condor_data[i]["Utilization"] = max(condor_data[i]["UsageCpus"] , condor_data[i]["UsageMemory"])
         condor_data[i]["PerCpuLoad"] = float(float(condor_data[i]["TotalCondorLoadAvg"]) / float(detCPU))
 
-
     return(condor_data)
-
-
-
 
 
 if __name__ == "__main__":
