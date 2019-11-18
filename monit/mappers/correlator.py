@@ -1,4 +1,5 @@
 import json
+import calculate
 
 def main():
     with open('../../examples/p1_data.json', 'r') as f:
@@ -7,14 +8,15 @@ def main():
         condor_data = json.load(f)
     with open('../../examples/panda_data.json', 'r') as f:
         panda_data = json.load(f)
+    condor_data = calculate.calc(condor_data)
     output = correlate(p1_data, condor_data, panda_data)
     n = 0
     for i in output:
-        if output[i]["InPanda"] == False or output[i]["InCondor"] == False:
+        #if output[i]["InPanda"] == False or output[i]["InCondor"] == False:
             n += 1
             print(i)
-        for x in output[i]:
-            if output[i]["InPanda"] == False or output[i]["InCondor"] == False:
+            for x in output[i]:
+            #if output[i]["InPanda"] == False or output[i]["InCondor"] == False:
                 print("        ", end="  ")
                 print(x,end = " ")
                 print(output[i][x])
