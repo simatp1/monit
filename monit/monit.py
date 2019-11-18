@@ -21,9 +21,9 @@ def main():
     elif ARGS.out == 'influx':
         try:
             from reporters import influx
-            influx.report(results, ARGS.host, ARGS.passwd)
+            influx.report(results, ARGS.dbhost, ARGS.dbuser, ARGS.dbpasswd)
         except AttributeError as e:
-            print("Output to influx reuqires a database host and password", e)
+            print("Output to influx reuqires a database host and password\n", e)
             exit(1)
 
 

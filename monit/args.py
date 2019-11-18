@@ -70,8 +70,18 @@ def add_resources_subparser(subparser):
         dest='out',
         help="Specify how to deliver results")
     parser.add_argument(
+        "--host",
+        default="",
+        dest='dbhost',
+        help="Credential to write reports to the database")
+    parser.add_argument(
+        "--user",
+        default="",
+        dest='dbuser',
+        help="Credential to write reports to the database")
+    parser.add_argument(
         "--passwd",
         default="",
-        dest='passwd',
+        dest='dbpasswd',
         help="Credential to write reports to the database")
     parser.set_defaults(cmd='resources')
