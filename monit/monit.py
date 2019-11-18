@@ -2,7 +2,7 @@
 
 import args
 from collectors import condor, p1, panda
-
+from mappers.correlator import correlate
 
 def main():
     ARGS = args.parse_args()
@@ -30,11 +30,11 @@ def main():
 def monitor_resources(arguments):
     # manages information flow for resources monitoring
     available_hosts, time = p1.list_resources()
-    condor_resources = condor.list_resources(
+    condor_hosts = condor.list_resources(
         arguments.pool)
-    panda.list_resources()
+    panda_hosts = panda.list_resources()
 
-    return condor_resources
+    return correlate(available_hosts, condor_hosts, panda_hosts)
 
 
 if __name__ == "__main__":

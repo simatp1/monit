@@ -26,10 +26,9 @@ def list_resources(pool="sp1-dev.cern.ch:20618"):
 
     # Rephrase ClassAd as a list of dictionaries
     data = [{key: ad[key] for key in ad if key in projection} for ad in ads]
-    return data
+    return makeDict(data)
 
-def makeDict():
-    data = list_resources()
+def makeDict(data):
     data_dict = {}
     for i in range(len(data)-1):
         data_dict[data[i]["Machine"][10:15]] = data[i]
