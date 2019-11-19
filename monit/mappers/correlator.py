@@ -1,5 +1,5 @@
 import json
-import calculate
+import mappers.calculate
 
 def main():
     with open('../../examples/p1_data.json', 'r') as f:
@@ -8,7 +8,6 @@ def main():
         condor_data = json.load(f)
     with open('../../examples/panda_data.json', 'r') as f:
         panda_data = json.load(f)
-    condor_data = calculate.calc(condor_data)
     output = correlate(p1_data, condor_data, panda_data)
     n = 0
     for i in output:
@@ -24,16 +23,23 @@ def main():
     print(n, "-------------------")
 
 def correlate(p1, condor, panda):
+    condor = calculate.calc(condor)
     output = {}
     for i in p1:
+        HighFail = False
         in_condor = False  #checks wether or not the machine is in the condor and panda resource lists
         in_panda = False
         if i in condor.keys():
             in_condor = True
         if i in panda.keys():
             in_panda = True
+        if panda[i] > 50:
+            HighFail = True
+
         if in_condor == True:
             output[i] = condor[i]  #if machine is found in condor, copies information to output dict
+            #output["vm-sp1-cn-"+i] = output[i]
+            #del output[i]
         else:
             output[i] = {"DetectedCpus":0, #if machine not found, information in output dict is set to 0
                          "DetectedMemory":0,
@@ -51,6 +57,7 @@ def correlate(p1, condor, panda):
             output[i]["pctfail"] = 0
         output[i]["InPanda"] = in_panda  #bools of in panda and in condor included for case differenciation
         output[i]["InCondor"] = in_condor
+        output[i]["HighFail"] = HighFail
     return output
 
 if __name__ == "__main__":
