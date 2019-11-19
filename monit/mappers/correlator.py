@@ -38,8 +38,6 @@ def correlate(p1, condor, panda):
 
         if in_condor == True:
             output[i] = condor[i]  #if machine is found in condor, copies information to output dict
-            #output["vm-sp1-cn-"+i] = output[i]
-            #del output[i]
         else:
             output[i] = {"DetectedCpus":0, #if machine not found, information in output dict is set to 0
                          "DetectedMemory":0,
@@ -50,7 +48,8 @@ def correlate(p1, condor, panda):
                          "UsageMemory":0.0,
                          "PerCpuLoad":0.0,
                          "Utilization":0.0}
-
+        #output["vm-sp1-cn-"+i] = output[i]
+        #del output[i]
         if in_panda == True:
             output[i]["pctfail"] = panda[i] #pctfail from pand copied if present, else set to 0
         else:
