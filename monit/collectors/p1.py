@@ -8,19 +8,18 @@ Returns:
     list of hostnames of the resources that should be available to do work, e.g.
     ['vm-sp1-cn-00001', 'vm-sp1-cn-00002', ..., 'vm-sp1-cn-94042']
 """
+import urllib.request
+
+
 def main():
-    list, epochTime = list_resources()
+    l, epochTime = list_resources()
     print(epochTime)
-    for i in range(len(list)):
-        print(list[i])
-        """
-    out = retrieve_File("http://squid.cern.ch/resources.txt")
-    out = out.split("\n")
-    print(out[3][0])"""
+    for i in range(len(l)):
+        print(l[i])
 
 def list_resources():
     incDevNam = False # when true ignors, when false adds the vm-sp1-cn- prefix
-    url = "http://squid.cern.ch/resources.txt" #url at wich to find the file
+    url = "https://pc-atlas-www.cern.ch/sp1/TPU_status.txt" #url at wich to find the file
     info = retrieve_File(url) #passes the list to find_resources_and_date in info variable
     list, epochTime = find_resources_and_date(info) #farther processes the file at buff_file location
     return list, epochTime
@@ -28,8 +27,11 @@ def list_resources():
 def retrieve_File(url):
     #gets the file from url -The location on the web- and saves it to toText -a user specified location- for
     #farther processing
-    import urllib.request
-    import shutil
+    proxy_support = urllib.request.ProxyHandler({
+        'http': 'http://atlasgw.cern.ch:3128',
+        'https': 'https://atlasgw.cern.ch:3128'})
+    opener = urllib.request.build_opener(proxy_support)
+    urllib.request.install_opener(opener)
     with urllib.request.urlopen(url) as response:
         response = response.read()
         response = response.decode('ascii')

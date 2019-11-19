@@ -18,7 +18,7 @@ def get_data():
     while True:
         try:
             response = requests.get(
-                'http://bigpanda.cern.ch/wns/CERN-P1_UCORE/',
+                'http://bigpanda.cern.ch/wns/CERN-P1/',
                 params=params,
                 headers=headers)
             # This fails sometimes cause bigpanda is obtuse

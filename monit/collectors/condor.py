@@ -37,11 +37,8 @@ def makeDict(data):
     return data_dict
 
 def main():
-    #print(json.dumps(list_resources(), indent=2))
     data = makeDict()
-    for i in data:
-        print(i, end=":  ")
-        print(data[i])
+    print(json.dumps(data, indent=2))
 
 if __name__ == '__main__':
     main()
