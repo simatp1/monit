@@ -9,7 +9,7 @@ def format_data(key, value):
     """
     value['host'] = key
     event = ("{measurement},InPanda={InPanda},InCondor={InCondor},Host={Host} "
-             "InPanda={InPanda},InCondor={InCondor},Host={Host},"
+             "Machine={Host},"
              "DetectedCpus={DetectedCpus},"
              "DetectedMemory={DetectedMemory},"
              "ChildCpus={ChildCpus},"
