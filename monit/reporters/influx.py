@@ -20,7 +20,7 @@ def format_data(key, value):
         "UsageCpus={UsageCpus},"
         "UsageMemory={UsageMemory},"
         "Utilization={Utilization},"
-        "PerCpuLoad={PerCpuLoad} ").format(
+        "PerCpuLoad={PerCpuLoad}").format(
             measurement='resources',
             Host=str(key),
             InPanda=str(value['InPanda']),
@@ -43,8 +43,6 @@ def report(data, host, user, passwd, port=8081, dbname='test'):
     """Report information gathered about Sim@P1 to InfluxDB
     """
     events = [format_data(k, v) for k, v in data.items()]
-    print(events)
-    return 0
     for event in events:
         requests.post(
             "https://{host}:{port}/write".format(
