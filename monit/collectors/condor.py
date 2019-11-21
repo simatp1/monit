@@ -31,13 +31,16 @@ def list_resources(pool="sp1-dev.cern.ch:20618"):
 def makeDict(data):
     data_dict = {}
     for i in range(len(data)-1):
-        data_dict[data[i]["Machine"][10:15]] = data[i]
+        machine = data[i]["Machine"]
+        if machine.endswith('.cern.ch'):
+            machine = machine[:-8]
+        data_dict[machine] = data[i]
     for i in data_dict:
         data_dict[i].pop('Machine')
     return data_dict
 
 def main():
-    data = makeDict()
+    data = list_resources()
     print(json.dumps(data, indent=2))
 
 if __name__ == '__main__':

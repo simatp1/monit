@@ -49,6 +49,7 @@ def correlate(p1, condor, panda):
             output[i]["pctfail"] = panda[i] #pctfail from pand copied if present, else set to 0
         else:
             output[i]["pctfail"] = 0
+            output[i]["outlier"] = "False"
         output[i]["InPanda"] = in_panda  #bools of in panda and in condor included for case differenciation
         output[i]["InCondor"] = in_condor
     return output

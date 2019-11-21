@@ -11,7 +11,7 @@ import time
 
 def get_data():
     params = {
-        'nhours': '1',
+        'hours': '48',
         'json': 1}
     headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
 
@@ -33,24 +33,33 @@ def get_data():
 
 
 def list_resources():
-    #a function to find the relevant info, the machine name and the pctfail value, out of the data structure
+    """find the relevant inforomation for systems in PanDA
+    Returns dictionary with:
+       machine name:
+       - pctfail: int[0-100]
+       - outlier: str[HighFail,LowFinished,etc]
+    """
     machines = {}
     data = get_data()
     for machine in data["summary"]:
         if "vm-sp1-cn-" in machine["name"]:
-            machines[machine["name"][10:15]] = machine["pctfail"]
+            i = str(machine["name"]).strip()
+            if i.endswith('.cern.ch'):
+                i = i[:-8]
+            machines[i] = {}
+            machines[i]["pctfail"] = machine["pctfail"]
+            outlier = str(machine["outlier"]).strip()
+            if outlier == "":
+                outlier = "False"
+            machines[i]["outlier"] = outlier
     return machines
 
 
 def main():
     """Execute this module as script to ease testing and developing
     """
-    #res = list_resources()
-    #print(json.dumps(res, indent=2))
     out = list_resources()
-    for n in out:
-        print(n, end="  ")
-        print(out[n])
+    print(json.dumps(out, indent=2))
 
 if __name__ == "__main__":
     main()

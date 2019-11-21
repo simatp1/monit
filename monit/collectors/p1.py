@@ -1,7 +1,6 @@
 """Get reports on the status of the hardware at P1 from webserver, e.g.
 
 example input file is in examples/resources.txt
-
 The same file sits on the webserver http://squid.cern.ch/resources.txt
 
 Returns:
@@ -9,6 +8,7 @@ Returns:
     ['vm-sp1-cn-00001', 'vm-sp1-cn-00002', ..., 'vm-sp1-cn-94042']
 """
 import urllib.request
+import requests
 
 
 def main():
@@ -17,25 +17,25 @@ def main():
     for i in range(len(l)):
         print(l[i])
 
+
 def list_resources():
-    incDevNam = False # when true ignors, when false adds the vm-sp1-cn- prefix
-    url = "https://pc-atlas-www.cern.ch/sp1/TPU_status.txt" #url at wich to find the file
-    info = retrieve_File(url) #passes the list to find_resources_and_date in info variable
+    # url at wich to find the file
+    url = "https://pc-atlas-www.cern.ch/sp1/TPU_status.txt"
+    info = retrieve_File(url)  # passes the list to find_resources_and_date in info variable
     list, epochTime = find_resources_and_date(info) #farther processes the file at buff_file location
     return list, epochTime
 
+
 def retrieve_File(url):
-    #gets the file from url -The location on the web- and saves it to toText -a user specified location- for
-    #farther processing
-    proxy_support = urllib.request.ProxyHandler({
+    # gets the file from url -The location on the web- and saves it to toText
+    # -a user specified location for farther processing
+    proxies = {
         'http': 'http://atlasgw.cern.ch:3128',
-        'https': 'https://atlasgw.cern.ch:3128'})
-    opener = urllib.request.build_opener(proxy_support)
-    urllib.request.install_opener(opener)
-    with urllib.request.urlopen(url) as response:
-        response = response.read()
-        response = response.decode('ascii')
-        return str(response)
+        'https': 'https://atlasgw.cern.ch:3128'}
+    capath = '/etc/grid-security/certificates'
+    r = requests.get(url, proxies=proxies, verify=capath)
+    return r.text
+
 
 def find_resources_and_date(info):
     # 1. grab list from file or webserver
@@ -43,8 +43,7 @@ def find_resources_and_date(info):
     # 3. take the remaining hostnames and turn them into a list of strings
     toKeep = []
     epochTime = 0
-    list = info
-    #initiats contents with first line of file
+    # initiats contents with first line of file
     contents = info.split('\n')
     i = 0
     while contents[i][0] == "#":
@@ -64,6 +63,7 @@ def find_resources_and_date(info):
                 #tests to see if line with len 0, sign of end of file
                 toKeep.append(prospect[0][11:16])
         i += 1
+    toKeep = ["vm-sp1-cn-"+i for i in toKeep]
     #returns creatime(time the file was Generated) and toKeep, a list of all relevant servers
     return toKeep, epochTime
     #return ['stuff', 'more stuff']
