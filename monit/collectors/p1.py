@@ -18,10 +18,10 @@ def main():
         print(l[i])
 
 def list_resources():
-    incDevNam = False # when true ignors, when false adds the vm-sp1-cn- prefix
+    incDevNam = True # when true ignors, when false adds the vm-sp1-cn- prefix
     url = "https://pc-atlas-www.cern.ch/sp1/TPU_status.txt" #url at wich to find the file
     info = retrieve_File(url) #passes the list to find_resources_and_date in info variable
-    list, epochTime = find_resources_and_date(info) #farther processes the file at buff_file location
+    list, epochTime = find_resources_and_date(info, incDevNam) #farther processes the file at buff_file location
     return list, epochTime
 
 def retrieve_File(url):
@@ -37,7 +37,7 @@ def retrieve_File(url):
         response = response.decode('ascii')
         return str(response)
 
-def find_resources_and_date(info):
+def find_resources_and_date(info, incDevNam):
     # 1. grab list from file or webserver
     # 2. drop everything that is no "prod simp1"
     # 3. take the remaining hostnames and turn them into a list of strings
@@ -62,7 +62,10 @@ def find_resources_and_date(info):
         #if "prod" in contents and "simp1" in contents:
             if prospect[1] == "prod" and prospect[2] == "simp1":
                 #tests to see if line with len 0, sign of end of file
-                toKeep.append(prospect[0][11:16])
+                if incDevNam == False:
+                    toKeep.append(prospect[0][11:16])
+                elif incDevNam == True:
+                    toKeep.append("vm-sp1-cn-"+prospect[0][11:16])
         i += 1
     #returns creatime(time the file was Generated) and toKeep, a list of all relevant servers
     return toKeep, epochTime
