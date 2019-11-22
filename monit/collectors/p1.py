@@ -61,12 +61,12 @@ def find_resources_and_date(info, incDevNam):
         #if "prod" in contents and "simp1" in contents:
             if prospect[1] == "prod" and prospect[2] == "simp1":
                 #tests to see if line with len 0, sign of end of file
-                if incDevNam == False:
-                    toKeep.append(prospect[0][11:16])
-                elif incDevNam == True:
-                    toKeep.append("vm-sp1-cn-"+prospect[0][11:16])
+                toKeep.append(prospect[0][11:16])
         i += 1
-    toKeep = ["vm-sp1-cn-"+i for i in toKeep]
+
+    if incDevNam == True:
+        toKeep = ["vm-sp1-cn-"+i for i in toKeep]
+
     #returns creatime(time the file was Generated) and toKeep, a list of all relevant servers
     return toKeep, epochTime
     #return ['stuff', 'more stuff']
